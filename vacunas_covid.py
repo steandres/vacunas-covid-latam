@@ -17,7 +17,9 @@ st.sidebar.header('Clasificar por País')
 
 
 #leyendo el archivo que tiene toda la informacion
-df = pd.read_csv("https://docs.google.com/spreadsheets/d/1MlLL19lch5UGJkTtiiKf_yMDJRhzBpfF4ngSOuFVzPk/export?format=csv")
+#df = pd.read_csv("https://docs.google.com/spreadsheets/d/1MlLL19lch5UGJkTtiiKf_yMDJRhzBpfF4ngSOuFVzPk/export?format=csv")
+url='https://github.com/owid/covid-19-data/blob/master/public/data/vaccinations/vaccinations.csv?raw=true'
+df = pd.read_csv(url, index_col=0)
 
 #limpiando los datos
 df_cl = df.fillna(0)
@@ -26,23 +28,23 @@ df_cl = df.fillna(0)
 data_fr = df_cl[(df_cl["total_vaccinations"] != 0)]
 
 #seleccionando paises de Latam
-data_fr_ = data_fr[(data_fr["country"].str.contains("Ecuador")) |
-                   (data_fr["country"].str.contains("Colombia")) | 
-                   (data_fr["country"].str.contains("Chile")) | 
-                   (data_fr["country"].str.contains("Argentina")) | 
-                   (data_fr["country"].str.contains("Brazil")) |
-                   (data_fr["country"].str.contains("Bolivia")) |
-                   (data_fr["country"].str.contains("Paraguay")) | 
-                   (data_fr["country"].str.contains("Venezuela")) |
-                   (data_fr["country"].str.contains("Uruguay")) |
-                   (data_fr["country"].str.contains("Peru"))]
+data_fr_ = data_fr[(data_fr["iso_code"].str.contains("ECU")) |
+                   (data_fr["iso_code"].str.contains("COL")) | 
+                   (data_fr["iso_code"].str.contains("CHL")) | 
+                   (data_fr["iso_code"].str.contains("ARG")) | 
+                   (data_fr["iso_code"].str.contains("BRA")) |
+                   (data_fr["iso_code"].str.contains("BOL")) |
+                   (data_fr["iso_code"].str.contains("PRY")) | 
+                   (data_fr["iso_code"].str.contains("VEN")) |
+                   (data_fr["iso_code"].str.contains("URY")) |
+                   (data_fr["iso_code"].str.contains("PER"))]
 
 # Barra Lateral - Seleccionar Pais
-pais_unico = sorted(data_fr_.country.unique())
+pais_unico = sorted(data_fr_.iso_code.unique())
 seleccion_pais = st.sidebar.multiselect('Pais', pais_unico, pais_unico)
 
 # Filtrando datos
-df_seleccion_pais = data_fr_[(data_fr_.country.isin(seleccion_pais))] # & (data_fr_.Pos.isin(seleccion_mes))
+df_seleccion_pais = data_fr_[(data_fr_.iso_code.isin(seleccion_pais))] # & (data_fr_.Pos.isin(seleccion_mes))
 
 st.header('Mostrar información del país seleccionado')
 st.write('Dimensión de Datos: ' + str(df_seleccion_pais.shape[0]) + ' filas y ' + str(df_seleccion_pais.shape[1]) + ' columnas.')
@@ -51,7 +53,7 @@ st.dataframe(df_seleccion_pais)
 #st.line_chart(data_fr_)   dato visualizable
 
 #Vacunas que se estan usando en latam
-vacuna2 = df_seleccion_pais.vaccines.value_counts()
+#vacuna2 = df_seleccion_pais.vaccines.value_counts()
 #vacuna2.plot.pie()
 
 #st.pyplot(vacuna2) dato no visualizable
@@ -59,9 +61,9 @@ vacuna2 = df_seleccion_pais.vaccines.value_counts()
 
 #personas vacunadas
 #total = df_seleccion_pais.people_vaccinated.sum()
-st.write('Tipos de vacunas que estan usando en la region')
-vacuna = pd.DataFrame(df_seleccion_pais.vaccines.value_counts())
-st.bar_chart(vacuna)
+#st.write('Tipos de vacunas que estan usando en la region')
+#vacuna = pd.DataFrame(df_seleccion_pais.vaccines.value_counts())
+#st.bar_chart(vacuna)
 
 #st.pyplot(plt.plot(df_seleccion_pais.vaccines))
 
