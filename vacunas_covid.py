@@ -37,7 +37,6 @@ data_fr_ = data_fr[(data_fr["country"].str.contains("Ecuador")) |
                    (data_fr["country"].str.contains("Uruguay")) |
                    (data_fr["country"].str.contains("Peru"))]
 
-
 # Barra Lateral - Seleccionar Pais
 pais_unico = sorted(data_fr_.country.unique())
 seleccion_pais = st.sidebar.multiselect('Pais', pais_unico, pais_unico)
@@ -57,7 +56,6 @@ vacuna2 = df_seleccion_pais.vaccines.value_counts()
 
 #st.pyplot(vacuna2) dato no visualizable
 #st.plotly_chart(df_seleccion_pais.vaccines)
-#st.
 
 #personas vacunadas
 #total = df_seleccion_pais.people_vaccinated.sum()
